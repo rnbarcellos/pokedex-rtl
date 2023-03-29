@@ -75,6 +75,7 @@ describe('Casos de uso do componente Pokedex', () => {
     const alakazam = screen.getByText('Alakazam');
     expect(alakazam).toBeInTheDocument();
     expect(allButton).toBeVisible();
+    expect(psychicButton.innerHTML).toBe('Psychic');
 
     userEvent.click(nextButton);
 
@@ -93,13 +94,22 @@ describe('Casos de uso do componente Pokedex', () => {
       name: /próximo pokémon/i,
     });
 
-    expect(allButton.innerHTML).toBe('All');
+    expect(allButton).toHaveTextContent('All');
 
     for (let i = 1; i <= 8; i += 1) {
       userEvent.click(nextBtn);
+      const pokemonName = screen.getByTestId(pokemon);
+      expect(pokemonName).toBeInTheDocument();
     }
 
-    const dragonair = screen.getByText('Dragonair');
-    expect(dragonair).toBeInTheDocument();
+    const poisonButton = screen.getByRole('button', {
+      name: /poison/i,
+    });
+
+    userEvent.click(poisonButton);
+    userEvent.click(allButton);
+
+    const pikachu = screen.getByText('Pikachu');
+    expect(pikachu).toBeInTheDocument();
   });
 });

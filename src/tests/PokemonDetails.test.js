@@ -10,15 +10,16 @@ import App from '../App';
 
 // *auxiliary variables
 const POKEMON_URL = '/pokemon/25';
-beforeEach(() => {
-  const { history } = renderWithRouter(<App />);
-
-  act(() => {
-    history.push(POKEMON_URL);
-  });
-});
 
 describe('Casos de teste do componente `<PokemonDetails />`', () => {
+  beforeEach(() => {
+    const { history } = renderWithRouter(<App />);
+
+    act(() => {
+      history.push(POKEMON_URL);
+    });
+  });
+
   test('As informações detalhadas do Pokémon selecionado são mostradas na tela', () => {
     const detailsHeading = screen.getByRole('heading', { name: /pikachu details/i });
     const detailsLink = screen.queryByRole('link', { name: /more details/i });

@@ -87,29 +87,24 @@ describe('Casos de uso do componente Pokedex', () => {
   test('Teste se a Pokédex contém um botão para resetar o filtro', () => {
     renderWithRouter(<App />);
 
-    const allButton = screen.getByRole('button', {
-      name: /all/i,
-    });
-    const nextBtn = screen.getByRole('button', {
-      name: /próximo pokémon/i,
-    });
+    const allButton = screen.getByRole('button', { name: /all/i });
+    const nextBtn = screen.getByRole('button', { name: /próximo pokémon/i });
+    const fireButton = screen.getByRole('button', { name: /fire/i });
 
     expect(allButton).toHaveTextContent('All');
+    userEvent.click(fireButton);
 
+    const fireType = screen.getByTestId('pokemon-type');
+    expect(fireType).toHaveTextContent('Fire');
+
+    userEvent.click(allButton);
+
+    const pikachu = screen.getByText('Pikachu');
     for (let i = 1; i <= 8; i += 1) {
       userEvent.click(nextBtn);
       const pokemonName = screen.getByTestId(pokemon);
       expect(pokemonName).toBeInTheDocument();
     }
-
-    const poisonButton = screen.getByRole('button', {
-      name: /poison/i,
-    });
-
-    userEvent.click(poisonButton);
-    userEvent.click(allButton);
-
-    const pikachu = screen.getByText('Pikachu');
     expect(pikachu).toBeInTheDocument();
   });
 });
